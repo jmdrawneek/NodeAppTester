@@ -10,19 +10,16 @@ const config = {
 
 const { spawn, spawnSync } = require('child_process');
 const path = require('path');
-const webserver = webServer(config.runCommand, config.commandArgs);
 
 
 
 
+console.log('Target directory', path.join(__dirname, '..'));
 
 
 
 
-
-function webServer (cmd, commandArgs) {
-  console.log(path.join(__dirname, '..'));
-  const webserver = spawnSync(`npx`, [cmd, commandArgs], {
+  const webserver = spawnSync(`npx`, [config.runCommand, config.commandArgs], {
     cwd: path.join(__dirname, '..'),
     stdio: [0,1,2]
   });
@@ -49,10 +46,6 @@ function webServer (cmd, commandArgs) {
   const ping = pingUrl(config.url);
   webserver.kill('SIGHUP');
 
-
-
-  return webserver;
-}
 
 
 function pingUrl (url) {
