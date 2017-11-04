@@ -15,13 +15,12 @@ const path = require('path');
 
 
   const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
-    cwd: path.join(__dirname, '..'),
-    stdio: [0,1,2]
+    cwd: path.join(__dirname, '..')
+    //stdio: [0,1,2]
   });
 
+webserver.stdout.pipe(process.stdout)
 
-  console.log('LOGGED: ', webserver.stdout);
-  console.log('LOGGED: ', webserver.stderr);
 
 webserver.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
@@ -34,6 +33,8 @@ webserver.stderr.on('data', (data) => {
 webserver.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
 });
+
+
 
   //const ping = pingUrl(config.url);
   //webserver.kill('SIGHUP');
