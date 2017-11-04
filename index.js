@@ -13,12 +13,10 @@ const path = require('path');
 const webserver = webServer(config.runCommand, config.commandArgs);
 
 
-const ping = pingUrl(config.url);
 
 
 
 
-webserver.kill('SIGHUP');
 
 
 
@@ -42,12 +40,17 @@ function webServer (cmd, commandArgs) {
     console.log(`child process exited with code ${code}`);
   });
 
+  const ping = pingUrl(config.url);
+  webserver.kill('SIGHUP');
+
+
+
   return webserver;
 }
 
 
 function pingUrl (url) {
-  const pingProcess = spawn(`ping`, [`-c 30`, `${url}`]);
+  const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
 
   pingProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
