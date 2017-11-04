@@ -9,6 +9,7 @@ const config = {
 //
 
 const { spawn } = require('child_process');
+const path = require('path');
 
 const webserver = webServer(config.runCommand, config.commandArgs);
 
@@ -23,7 +24,7 @@ webserver.kill('SIGHUP');
 
 
 function webServer (cmd, commandArgs) {
-  const webserver = spawn(`cd .. && ${cmd}`, [commandArgs]);
+  const webserver = spawn(`${cmd}`, [commandArgs], {cwd: path.join(__dirname, '..')});
 
   webserver.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
