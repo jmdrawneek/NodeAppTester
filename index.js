@@ -49,19 +49,7 @@ webserver.on('close', (code) => {
 
 function pingUrl (url) {
   const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
-  pingProcess.stdout.pipe(process.stdout);
-
-  pingProcess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  pingProcess.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
-
-  pingProcess.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
+  pingProcess.stdout(process.stdout);
 
   return pingProcess
 }
