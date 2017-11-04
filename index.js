@@ -1,7 +1,8 @@
 // Get configuration file
 
 const config = {
-  runCommand: 'gulp develop-portal-cdn',
+  runCommand: 'gulp',
+  commandArgs: 'develop-portal-cdn',
   url: 'http://localhost:3000' // Later this could be collected from the server output.
 };
 
@@ -9,7 +10,7 @@ const config = {
 
 const { spawn } = require('child_process');
 
-const webserver = webServer(config.runCommand);
+const webserver = webServer(config.runCommand, config.commandArgs);
 
 
 const ping = pingUrl(config.url);
@@ -21,8 +22,8 @@ webserver.kill('SIGHUP');
 
 
 
-function webServer (cmd) {
-  const webserver = spawn(`cd .. && ${cmd}`);
+function webServer (cmd, commandArgs) {
+  const webserver = spawn(`cd .. && ${cmd}`, [commandArgs]);
 
   webserver.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -40,9 +41,9 @@ function webServer (cmd) {
 }
 
 
-function pingUrl (command) {
+function pingUrl (url) {
 
-  const pingProcess = spawn(`ping -c 30 ${command}`);
+  const pingProcess = spawn(`ping`, [`-c 30 ${url}`]);
 
   pingProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
