@@ -44,7 +44,7 @@ function webServer (cmd, commandArgs) {
 
 
 function pingUrl (url) {
-  const pingProcess = spawn(`ping`, [`-c 30 ${url}`]);
+  const pingProcess = spawn(`ping`, [`-c 30`, `${url}`]);
 
   pingProcess.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
