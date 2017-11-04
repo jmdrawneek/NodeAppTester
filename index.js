@@ -8,9 +8,8 @@ const config = {
 
 //
 
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const path = require('path');
-
 const webserver = webServer(config.runCommand, config.commandArgs);
 
 
@@ -25,10 +24,14 @@ webserver.kill('SIGHUP');
 
 function webServer (cmd, commandArgs) {
   console.log(path.join(__dirname, '..'));
-  const webserver = spawn(`npx`, [cmd, commandArgs], {cwd: path.join(__dirname, '..')});
+  const webserver = spawnSync(`npx`, [cmd, commandArgs], {cwd: path.join(__dirname, '..')});
 
   webserver.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
+  });
+
+  webserver.output.on('data', (data) => {
+    console.log(`Output: ${data}`);
   });
 
   webserver.stderr.on('data', (data) => {
