@@ -19,21 +19,6 @@ const path = require('path');
     stdio: [0,1,2]
   });
 
-  webserver.stdout.on('data', (data) => {
-    console.log(`stdout: ${data.toString()}`);
-  });
-
-  webserver.output.on('data', (data) => {
-    console.log(`Output: ${data.toString()}`);
-  });
-
-  webserver.stderr.on('data', (data) => {
-    console.log(`stderr: ${data.toString()}`);
-  });
-
-  webserver.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
 
   console.log('LOGGED: ', webserver.stdout.toString());
   console.log('LOGGED: ', webserver.stderr.toString());
