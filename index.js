@@ -24,7 +24,8 @@ webserver.kill('SIGHUP');
 
 
 function webServer (cmd, commandArgs) {
-  const webserver = spawn(`${cmd}`, [commandArgs], {cwd: path.join(__dirname, '..')});
+  console.log(path.join(__dirname, '..'));
+  const webserver = spawn(`npx`, [cmd, commandArgs], {cwd: path.join(__dirname, '..')});
 
   webserver.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -43,7 +44,6 @@ function webServer (cmd, commandArgs) {
 
 
 function pingUrl (url) {
-
   const pingProcess = spawn(`ping`, [`-c 30 ${url}`]);
 
   pingProcess.stdout.on('data', (data) => {
