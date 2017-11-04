@@ -16,14 +16,18 @@ const path = require('path');
 
   const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
     cwd: path.join(__dirname, '..')
-    //stdio: [0,1,2]
   });
 
+// Pipe the log from the child pack to the main process output.
 webserver.stdout.pipe(process.stdout)
 
 
 webserver.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
+  const taskName = new RegExp(`/Finished '${config.commandArgs}'/`, 'g');
+  if (data.match(taskName)) {
+    const ping = pingUrl(config.url);
+  }
 });
 
 webserver.stderr.on('data', (data) => {
@@ -36,30 +40,26 @@ webserver.on('close', (code) => {
 
 
 
-  //const ping = pingUrl(config.url);
+  //
   //webserver.kill('SIGHUP');
 
 
 
 function pingUrl (url) {
-  const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`], {
-    stdio:[0,1,2]
-  });
+  const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
+  pingProcess.stdout.pipe(process.stdout);
 
   pingProcess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data.toString()}`);
+    console.log(`stdout: ${data}`);
   });
 
   pingProcess.stderr.on('data', (data) => {
-    console.log(`stderr: ${data.toString()}`);
+    console.log(`stderr: ${data}`);
   });
 
   pingProcess.on('close', (code) => {
-    console.log(`child process exited with code ${code.toString()}`);
+    console.log(`child process exited with code ${code}`);
   });
-
-  console.log('LOGGED: ', pingProcess.stdout.toString());
-  console.log('LOGGED: ', pingProcess.stderr.toString());
 
   return pingProcess
 }
