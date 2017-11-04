@@ -28,15 +28,15 @@ function webServer (cmd, commandArgs) {
   });
 
   webserver.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`stdout: ${data.toString()}`);
   });
 
   webserver.output.on('data', (data) => {
-    console.log(`Output: ${data}`);
+    console.log(`Output: ${data.toString()}`);
   });
 
   webserver.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
+    console.log(`stderr: ${data.toString()}`);
   });
 
   webserver.on('close', (code) => {
@@ -58,15 +58,15 @@ function pingUrl (url) {
   });
 
   pingProcess.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    console.log(`stdout: ${data.toString()}`);
   });
 
   pingProcess.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
+    console.log(`stderr: ${data.toString()}`);
   });
 
   pingProcess.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    console.log(`child process exited with code ${code.toString()}`);
   });
 
   return pingProcess
