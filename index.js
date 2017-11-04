@@ -14,12 +14,7 @@ const path = require('path');
 
 
 
-console.log('Target directory', path.join(__dirname, '..'));
-
-
-
-
-  const webserver = spawnSync(`npx`, [config.runCommand, config.commandArgs], {
+  const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
     cwd: path.join(__dirname, '..'),
     stdio: [0,1,2]
   });
@@ -43,8 +38,8 @@ console.log('Target directory', path.join(__dirname, '..'));
   console.log('LOGGED: ', webserver.stdout.toString());
   console.log('LOGGED: ', webserver.stderr.toString());
 
-  const ping = pingUrl(config.url);
-  webserver.kill('SIGHUP');
+  //const ping = pingUrl(config.url);
+  //webserver.kill('SIGHUP');
 
 
 
