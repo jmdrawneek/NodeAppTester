@@ -43,6 +43,9 @@ function webServer (cmd, commandArgs) {
     console.log(`child process exited with code ${code}`);
   });
 
+  console.log('LOGGED: ', webserver.stdout.toString());
+  console.log('LOGGED: ', webserver.stderr.toString());
+
   const ping = pingUrl(config.url);
   webserver.kill('SIGHUP');
 
@@ -68,6 +71,9 @@ function pingUrl (url) {
   pingProcess.on('close', (code) => {
     console.log(`child process exited with code ${code.toString()}`);
   });
+
+  console.log('LOGGED: ', pingProcess.stdout.toString());
+  console.log('LOGGED: ', pingProcess.stderr.toString());
 
   return pingProcess
 }
