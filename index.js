@@ -20,8 +20,20 @@ const path = require('path');
   });
 
 
-  console.log('LOGGED: ', webserver.stdout.toString());
-  console.log('LOGGED: ', webserver.stderr.toString());
+  console.log('LOGGED: ', webserver.stdout);
+  console.log('LOGGED: ', webserver.stderr);
+
+webserver.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+webserver.stderr.on('data', (data) => {
+  console.log(`stderr: ${data}`);
+});
+
+webserver.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
 
   //const ping = pingUrl(config.url);
   //webserver.kill('SIGHUP');
