@@ -25,7 +25,9 @@ webserver.stdout.pipe(process.stdout)
 webserver.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
   const taskName = new RegExp(`/Finished '${config.commandArgs}'/`, 'g');
+  console.log(taskName);
   if (String(data).match(taskName)) {
+    console.log('FOUND IT!!!');
     const ping = pingUrl(config.url);
   }
 });
