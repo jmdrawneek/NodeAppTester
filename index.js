@@ -22,7 +22,7 @@ webserver.kill('SIGHUP');
 
 
 function webServer (cmd) {
-  const webserver = spawn(cmd);
+  const webserver = spawn(`cd .. && ${cmd}`);
 
   webserver.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
