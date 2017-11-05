@@ -4,7 +4,7 @@ const config = {
   commandArgs: 'develop-portal-cdn',
   url: 'localhost', // Later this could be collected from the server output.
   port: '3000',
-  deps: ['cucumber', 'selenium-webdriver', 'jest', 'puppeteer']
+  deps: ['cucumber', 'selenium-webdriver', 'jest', 'puppeteer', 'chromedriver']
 };
 
 const { spawn, spawnSync } = require('child_process');
@@ -12,7 +12,9 @@ const path = require('path');
 
 const installDep = spawnSync(`npm`, ['install', ...config.deps], {
   cwd: path.join(__dirname, '..')
-})
+});
+
+console.log(installDep.output.toString('utf8'));
 
 const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
   cwd: path.join(__dirname, '..')
