@@ -50,7 +50,7 @@ webserver.on('close', (code) => {
 function pingUrl (url, webserver) {
   const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
   console.log('SENT PING');
-  console.log(pingProcess.stdout);
+  console.log(pingProcess.stdout.toString());
 
   webserver.kill('SIGHUP');
 
