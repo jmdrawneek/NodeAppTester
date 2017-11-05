@@ -28,7 +28,7 @@ webserver.stdout.on('data', (data) => {
   console.log(taskName);
   if (String(data).match(taskName)) {
     console.log('FOUND IT!!!');
-    const ping = pingUrl(config.url);
+    pingUrl(config.url, webserver);
   }
 });
 
@@ -43,13 +43,16 @@ webserver.on('close', (code) => {
 
 
   //
-  //webserver.kill('SIGHUP');
+  //
 
 
 
-function pingUrl (url) {
+function pingUrl (url, webserver) {
   const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
+  console.log('SENT PING');
   console.log(pingProcess.stdout);
+
+  webserver.kill('SIGHUP');
 
   return pingProcess
 }
