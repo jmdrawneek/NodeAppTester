@@ -51,7 +51,7 @@ function pingUrl (url) {
 }
 
 function runTests () {
-  const cucumber = spawnSync(`cucumber-js`);
+  const cucumber = spawnSync(`npx`, ['cucumber-js']);
   console.log(cucumber.output.toString('utf8'));
 
 
