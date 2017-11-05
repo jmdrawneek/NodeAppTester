@@ -3,7 +3,7 @@
 const config = {
   runCommand: 'gulp',
   commandArgs: 'develop-portal-cdn',
-  url: 'http://localhost', // Later this could be collected from the server output.
+  url: 'localhost', // Later this could be collected from the server output.
   port: '3000'
 };
 
