@@ -4,7 +4,7 @@ const config = {
   commandArgs: 'develop-portal-cdn',
   url: 'localhost', // Later this could be collected from the server output.
   port: '3000',
-  deps: ['cucumber', 'selenium-webdriver', 'jest', 'puppeteer', 'chromedriver']
+  deps: ['cucumber', 'selenium-webdriver@3.4.0', 'jest', 'puppeteer', 'chromedriver@2.29.0']
 };
 
 const { spawn, spawnSync } = require('child_process');
