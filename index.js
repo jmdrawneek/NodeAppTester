@@ -49,7 +49,7 @@ webserver.on('close', (code) => {
 
 function pingUrl (url) {
   const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
-  pingProcess.stdout(process.stdout);
+  console.log(pingProcess.stdout);
 
   return pingProcess
 }
