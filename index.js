@@ -3,7 +3,8 @@
 const config = {
   runCommand: 'gulp',
   commandArgs: 'develop-portal-cdn',
-  url: 'http://localhost:3000' // Later this could be collected from the server output.
+  url: 'http://localhost', // Later this could be collected from the server output.
+  port: '3000'
 };
 
 //
@@ -48,7 +49,7 @@ webserver.on('close', (code) => {
 
 
 function pingUrl (url, webserver) {
-  const pingProcess = spawnSync(`ping`, [`-c 30`, `${url}`]);
+  const pingProcess = spawnSync(`ping`, [`-c 30`, `-p ${config.port}`, `${url}`]);
   console.log('SENT PING');
   console.log(pingProcess.output.toString('utf8'));
 
