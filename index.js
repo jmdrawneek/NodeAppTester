@@ -1,5 +1,4 @@
 // Get configuration file
-
 const config = {
   runCommand: 'gulp',
   commandArgs: 'develop-portal-cdn',
@@ -7,17 +6,12 @@ const config = {
   port: '3000'
 };
 
-//
-
 const { spawn, spawnSync } = require('child_process');
 const path = require('path');
 
-
-
-
-  const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
-    cwd: path.join(__dirname, '..')
-  });
+const webserver = spawn(`npx`, [config.runCommand, config.commandArgs], {
+  cwd: path.join(__dirname, '..')
+});
 
 // Pipe the log from the child pack to the main process output.
 webserver.stdout.pipe(process.stdout)
@@ -27,9 +21,10 @@ webserver.stdout.on('data', (data) => {
   console.log(`stdout: ${data}`);
   const taskName = new RegExp(`Finished '${config.commandArgs}'`, 'g');
   console.log(taskName);
+
   if (String(data).match(taskName)) {
     console.log('FOUND IT!!!');
-    pingUrl(config.url, webserver);
+    pingUrl(config.url);
   }
 });
 
@@ -42,18 +37,24 @@ webserver.on('close', (code) => {
 });
 
 
+function pingUrl (url) {
+  const pingProcess = spawnSync(`ping`, [`-c 10`, `-p ${config.port}`, `${url}`]);
+  const testForSuccess = new RegExp('0% packet loss', 'g')
+  console.log('Web server up and tested with ping');
 
-  //
-  //
-
-
-
-function pingUrl (url, webserver) {
-  const pingProcess = spawnSync(`ping`, [`-c 30`, `-p ${config.port}`, `${url}`]);
-  console.log('SENT PING');
-  console.log(pingProcess.output.toString('utf8'));
-
-  webserver.kill('SIGHUP');
+  if (pingProcess.output.toString('utf8').match(testForSuccess)) {
+    // RUN TESTS!!!!
+    runTests();
+  }
 
   return pingProcess
+}
+
+function runTests () {
+  const cucumber = spawnSync(`cucumber-js`);
+  console.log(cucumber.output.toString('utf8'));
+
+
+  // Kill the web server as we're now done.
+  webserver.kill('SIGHUP');
 }
